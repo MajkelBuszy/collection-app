@@ -8,15 +8,10 @@ import { AlertContext } from '../global/alert-context';
 import { signupSchema, signupFormDefaults } from './FormModels/form-models';
 
 const SignUp = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
     const alert = useContext(AlertContext);
-
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (values) => {
         const signupUser = async () => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signup`, {
@@ -25,9 +20,9 @@ const SignUp = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                        username: name,
-                        email: email,
-                        password: password
+                        username: values.username,
+                        email: values.email,
+                        password: values.password
                     })
                 });
                 const responseData = await response.json();
@@ -37,9 +32,6 @@ const SignUp = () => {
                     alert.toggleAlert(true);
                     return;
                 }
-                setName('');
-                setEmail('');
-                setPassword('');
                 alert.setAlertMessage(responseData.message);
                 alert.setAlertSeverity('success');
                 alert.toggleAlert(true);
