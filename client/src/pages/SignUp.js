@@ -98,7 +98,7 @@ const SignUp = () => {
                                 fullWidth
                                 sx={{ marginTop: '25px', marginBottom: '10px' }}
                             >
-                                Login
+                                Sign&nbsp;up
                             </Button>
                         </Box>
                     )}
