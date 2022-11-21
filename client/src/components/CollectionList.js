@@ -8,9 +8,7 @@ const CollectionList = () => {
     useEffect(() => {
         const fetchBiggestCollections = async () => {
             try {
-                const url1 = 'https://senior-dev-website-no-joke.herokuapp.com/api/collections/biggest';
-                const url2 = 'http://localhost:5000/api/collections/biggest';
-                const response = await fetch(url2, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/collections/biggest`, {
                     method: 'GET'
                 });
                 const responseData = await response.json();

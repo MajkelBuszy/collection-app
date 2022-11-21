@@ -10,3 +10,14 @@ export const signupSchema = yup.object().shape({
     email: yup.string('Invalid input.').email('Please provide a valid email.').required('Email required.'),
     password: yup.string('Invalid input.').min(6, 'Password must be at least 6 characters long.').required('Password required.')
 });
+
+export const loginFormDefaults = {
+    email: '',
+    password: ''
+}
+
+export const signupFormDefaults = {
+    username: '',
+    email: '',
+    password: ''
+}

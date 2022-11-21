@@ -21,10 +21,8 @@ const ItemPage = () => {
     const navigate = useNavigate();
 
     const fetchItem = async () => {
-        const url1 = `https://senior-dev-website-no-joke.herokuapp.com/api/items/${itemid}`;
-        const url2 = `http://localhost:5000/api/items/${itemid}`;
         try {
-            const response = await fetch(url2, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/items/${itemid}`, {
                 method: 'GET'
             });
             const responseData = await response.json();
@@ -76,10 +74,8 @@ const ItemPage = () => {
     const handleEditItem = (e) => {
         e.preventDefault();
         const editItem = async () => {
-            const url1 = `https://senior-dev-website-no-joke.herokuapp.com/api/items/${itemid}`;
-            const url2 = `http://localhost:5000/api/items/${itemid}`;
             try {
-                const response = await fetch(url2, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/items/${itemid}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json'

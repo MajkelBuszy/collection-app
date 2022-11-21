@@ -6,9 +6,7 @@ const ActionButton = (props) => {
     const navigate = useNavigate();
 
     const actionHandler = async () => {
-        const url1 = `https://senior-dev-website-no-joke.herokuapp.com/api/users/${props.queryType}/${props.userId}`;
-        const url2 = `http://localhost:5000/api/users/${props.queryType}/${props.userId}`;
-        const response = await fetch(url2, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${props.queryType}/${props.userId}`, {
             method: props.method,
             headers: {
                 'Content-Type': 'application/json'

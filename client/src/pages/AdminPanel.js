@@ -7,9 +7,7 @@ const AdminPanel = () => {
 
     useEffect(() => {
         const fetchUsers = async () => {
-            const url1 = 'https://senior-dev-website-no-joke.herokuapp.com/api/users/';
-            const url2 = 'http://localhost:5000/api/users/';
-            const response = await fetch(url2, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
                 method: 'GET'
             });
             const data = await response.json();

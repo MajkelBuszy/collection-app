@@ -2,8 +2,10 @@ import React, { useState, useContext } from 'react';
 import { Box, Button, Card, Container, TextField, Typography } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Link from '@mui/material/Link';
+import { Formik } from 'formik';
 
 import { AlertContext } from '../global/alert-context';
+import { signupSchema, signupFormDefaults } from './FormModels/form-models';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
@@ -17,9 +19,7 @@ const SignUp = () => {
         e.preventDefault();
         const signupUser = async () => {
             try {
-                const url1 = 'https://senior-dev-website-no-joke.herokuapp.com/api/users/signup';
-                const url2 = 'http://localhost:5000/api/users/signup';
-                const response = await fetch(url2, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -57,57 +57,65 @@ const SignUp = () => {
                 <Typography component='h1' variant='h5' color={'text.primary'}>
                     Sign Up
                 </Typography>
-                <Box component='form' onSubmit={handleSubmit} sx={{ marginTop: '10px' }}>
-                    <TextField 
-                        margin='normal'
-                        required
-                        fullWidth
-                        label="Username"
-                        type='text'
-                        autoComplete='off'
-                        value={name}
-                        onChange={(e) => {
-                            setName(e.target.value);
-                        }}
-                    />
-                    <TextField 
-                        margin='normal'
-                        required
-                        fullWidth
-                        label="Email"
-                        autoComplete='email'
-                        type='email'
-                        value={email}
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                        }}
-                    />
-                    <TextField
-                        margin='normal'
-                        required
-                        fullWidth
-                        label="Password"
-                        autoComplete='new-password'
-                        type='password'
-                        value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                        }}
-                    />
-                    <Button
-                        type='submit'
-                        variant='contained'
-                        fullWidth
-                        sx={{ marginTop: '10px', marginBottom: '10px' }}
-                    >
-                        Sign Up
-                    </Button>
-                    <Link component={RouterLink} to='/login'>
-                        <Typography>
-                            Already have an account? Login
-                        </Typography>
-                    </Link>
-                </Box>
+                <Formik
+                    onSubmit={handleSubmit}
+                    initialValues={signupFormDefaults}
+                    validationSchema={signupSchema}
+                >
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+                        <Box component='form' onSubmit={handleSubmit} sx={{ '& > div': {margin: '15px 0 0 0'} }}>
+                            <TextField 
+                                fullWidth
+                                variant='outlined'
+                                type='text'
+                                label='Username'
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                value={values.username}
+                                name='username'
+                                error={!!touched.username && !!errors.username}
+                                helperText={touched.username && errors.username}
+                            />
+                            <TextField 
+                                fullWidth
+                                variant='outlined'
+                                type='email'
+                                label='Email'
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                value={values.email}
+                                name='email'
+                                error={!!touched.email && !!errors.email}
+                                helperText={touched.email && errors.email}
+                            />
+                            <TextField 
+                                fullWidth
+                                variant='outlined'
+                                type='password'
+                                label='Password'
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                value={values.password}
+                                name='password'
+                                error={!!touched.password && !!errors.password}
+                                helperText={touched.password && errors.password}
+                            />
+                            <Button
+                                type='submit'
+                                variant='contained'
+                                fullWidth
+                                sx={{ marginTop: '25px', marginBottom: '10px' }}
+                            >
+                                Login
+                            </Button>
+                        </Box>
+                    )}
+                </Formik>
+                <Link component={RouterLink} to='/login'>
+                    <Typography>
+                        Already have an account? Login
+                    </Typography>
+                </Link>
             </Card>
         </Container>
     )

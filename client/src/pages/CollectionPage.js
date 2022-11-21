@@ -34,9 +34,7 @@ const CollectionPage = () => {
     useEffect(() => {
         const fetchCollection = async () => {
             try {
-                const url1 = `https://senior-dev-website-no-joke.herokuapp.com/api/collections/${cid}`;
-                const url2 = `http://localhost:5000/api/collections/${cid}`;
-                const response = await fetch(url2, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/collections/${cid}`, {
                     method: 'GET'
                 });
                 const responseData = await response.json();
@@ -60,10 +58,8 @@ const CollectionPage = () => {
     const handleAddItemForm = (e) => {
         e.preventDefault();
         const createItem = async () => {
-            const url1 = `https://senior-dev-website-no-joke.herokuapp.com/api/items/`;
-            const url2 = `http://localhost:5000/api/items/`;
             try {
-                const response = await fetch(url2, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/items/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

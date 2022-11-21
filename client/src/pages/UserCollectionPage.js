@@ -28,9 +28,7 @@ const UserCollectionPage = () => {
 
     const getCollections = async () => {
         try {
-            const url1 = `https://senior-dev-website-no-joke.herokuapp.com/api/collections/user/${uid}`;
-            const url2 = `http://localhost:5000/api/collections/user/${uid}`;
-            const response = await fetch(url2, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/collections/user/${uid}`, {
                 method: 'GET'
             });
             const responseData = await response.json();
@@ -57,10 +55,8 @@ const UserCollectionPage = () => {
     const handleCreateCollectionForm = (e) => {
         e.preventDefault();
         const createCollection = async () => {
-            const url1 = `https://senior-dev-website-no-joke.herokuapp.com/api/collections/`;
-            const url2 = `http://localhost:5000/api/collections/`;
             try {
-                const response = await fetch(url2, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/collections/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

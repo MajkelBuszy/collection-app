@@ -6,10 +6,8 @@ import { useNavigate } from 'react-router-dom';
 const DeleteButton = (props) => {
     const navigate = useNavigate();
     const deleteItemHandler = async () => {
-        const url1 = `https://senior-dev-website-no-joke.herokuapp.com/api/${props.target}/${props.id}`;
-        const url2 = `http://localhost:5000/api/${props.target}/${props.id}`;
         try {
-            const response = await fetch(url2, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${props.target}/${props.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'

@@ -1,31 +1,20 @@
 import React, { useState, useContext } from 'react';
-import * as yup from 'yup';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Box, Button, Card, Container, TextField, Typography } from '@mui/material';
 import Link from '@mui/material/Link';
 import { Formik } from 'formik';
 
 import { AlertContext } from '../global/alert-context';
-import { loginSchema } from './FormModels/form-models';
-import { margin } from '@mui/system';
-
-const formValues = {
-    email: '',
-    password: ''
-}
+import { loginSchema, loginFormDefaults } from './FormModels/form-models';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const alert = useContext(AlertContext);
     const navigate = useNavigate();
 
     const handleSubmit = (values) => {
         const loginUser = async () => {
             try {
-                const url1 = 'https://senior-dev-website-no-joke.herokuapp.com/api/users/login';
-                const url2 = 'http://localhost:5000/api/users/login';
-                const response = await fetch(url2, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -37,15 +26,11 @@ const Login = () => {
                 });
                 const responseData = await response.json();
                 if (responseData.error) {
-                    setEmail('');
-                    setPassword('');
                     alert.setAlertMessage(responseData.error);
                     alert.setAlertSeverity('error');
                     alert.toggleAlert(true);
                     return;
                 }
-                setEmail('');
-                setPassword('');
                 localStorage.setItem('token', responseData.token);
                 localStorage.setItem('userId', responseData.userId);
                 localStorage.setItem('isAdmin', responseData.isAdmin);
@@ -77,11 +62,11 @@ const Login = () => {
                 </Typography>
                 <Formik
                     onSubmit={handleSubmit}
-                    initialValues={formValues}
+                    initialValues={loginFormDefaults}
                     validationSchema={loginSchema}
                 >
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
-                        <Box component='form' onSubmit={handleSubmit} sx={{ '& > div': {margin: '15px 0'} }}>
+                        <Box component='form' onSubmit={handleSubmit} sx={{ '& > div': {margin: '15px 0 0 0'} }}>
                             <TextField 
                                 fullWidth
                                 variant='outlined'
@@ -110,7 +95,7 @@ const Login = () => {
                                 type='submit'
                                 variant='contained'
                                 fullWidth
-                                sx={{ marginTop: '10px', marginBottom: '10px' }}
+                                sx={{ marginTop: '25px', marginBottom: '10px' }}
                             >
                                 Login
                             </Button>
